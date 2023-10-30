@@ -14,6 +14,8 @@ import Tabs from "@/components/Tabs";
 import Loader from "@/components/Loader";
 import Pokemon from "@/components/Pokemon";
 import PokemonWithReactQuery from "@/components/PokemonWithReactQuery";
+import CopyBtn from "@/components/CopyBtn";
+import CheckList from "@/components/CheckList";
 
 // const Trailer = styled.div`
 //   height: 20px;
@@ -65,8 +67,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container>
+        <CopyBtn />
+        <CheckList />
         {/* <Pokemon /> */}
-        <PokemonWithReactQuery />
+        {/* <PokemonWithReactQuery /> */}
         {/* <Loader /> */}
         {/* <Navbar /> */}
         {/* <Trailer ref={mouseRef} mousepos={mousePos} interacting={interacting}>
