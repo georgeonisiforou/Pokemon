@@ -9,9 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.0.5",
+    "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
+    "next": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "react-draggable": "^4.4.6",
+    "react-icons": "^4.11.0",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.0.8",
+    "wavesurfer.js": "^7.3.4"
   },
   "devDependencies": {
     "eslint": "latest",
