@@ -15,6 +15,10 @@ const BigContainer = styled.div`
   gap: 1rem;
   align-items: center;
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h2`
@@ -31,6 +35,11 @@ const Container = styled.div`
   justify-content: center;
   padding: 3rem;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 0;
+  }
 `;
 
 const SelectPokemon = styled.select`
@@ -81,6 +90,10 @@ const PokemonCard = styled.div`
       rgba(255, 255, 255, 0.4),
      transparent 40%
     )`};
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 

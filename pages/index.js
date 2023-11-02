@@ -42,6 +42,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem 2rem;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `;
 
 export default function Home() {
