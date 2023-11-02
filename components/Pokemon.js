@@ -26,6 +26,10 @@ const Title = styled.h2`
   font-weight: 900;
   font-family: "Dancing Script";
   color: #c8a951;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const Container = styled.div`
@@ -39,6 +43,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     padding: 0;
+    gap: 1rem;
   }
 `;
 
@@ -317,6 +322,10 @@ const LabelWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    gap: 0;
+  }
 `;
 
 const Label = styled.div`
