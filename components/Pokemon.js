@@ -6,6 +6,23 @@ import { backgrounds } from "@/backgrounds";
 import { icons } from "@/typeIcons";
 import Sparkles from "./Sparkles";
 import { BsGenderMale, BsGenderFemale } from "react-icons/bs";
+import { MdCatchingPokemon, MdHourglassTop } from "react-icons/md";
+
+const BigContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  padding: 2rem;
+`;
+
+const Title = styled.h2`
+  font-size: 5rem;
+  font-weight: 900;
+  font-family: "Dancing Script";
+  color: #c8a951;
+`;
 
 const Container = styled.div`
   width: 100%;
@@ -20,7 +37,7 @@ const SelectPokemon = styled.select`
   width: 250px;
   height: 70px;
   border-radius: 5px;
-  border: 3px solid gold;
+  border: 3px solid #f9e076;
   padding: 1rem;
   cursor: pointer;
   font-size: 1.2rem;
@@ -42,7 +59,7 @@ const PokemonCard = styled.div`
   border-radius: 10px;
   background: ${({ poketype, colorsmap }) => colorsmap[poketype]};
   padding: 1rem;
-  border: 8px solid gold;
+  border: 8px solid #f9e076;
   position: relative;
 
   transform: ${({ rotatex, rotatey }) =>
@@ -111,7 +128,7 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  border: 3px solid gold;
+  border: 3px solid #f9e076;
   z-index: 15;
   opacity: ${({ ishovered }) => (ishovered ? 0 : 1)};
   background: radial-gradient(
@@ -130,7 +147,7 @@ const PreviousEvolutionContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid gold;
+  border: 3px solid #f9e076;
   border-radius: 5px;
   z-index: ${({ ishovered }) => (ishovered === true ? "1000" : "-5")};
   background: radial-gradient(
@@ -156,7 +173,7 @@ const Evolves = styled.div`
     bottom: -5px;
     width: 100%;
     height: 2px;
-    background-color: gold;
+    background-color: #f9e076;
   }
 `;
 
@@ -278,13 +295,32 @@ const InfoCursor = styled.div`
   }
 `;
 
-//create pokeball loader
-//useQuery for fetch
+const LabelWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Label = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e3b778;
+`;
+
+const SelectWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
 const Pokemon = () => {
   const [pokemon, setPokemon] = useState(null);
   const [selected, setSelected] = useState(
-    "https://pokeapi.co/api/v2/pokemon-species/29/"
+    "https://pokeapi.co/api/v2/pokemon-species/1/"
   );
   const [pokemonObject, setPokemonObject] = useState({
     name: "",
@@ -498,69 +534,182 @@ const Pokemon = () => {
   }, [selected]);
 
   return (
-    <Container>
-      <SelectPokemon
-        onChange={(e) => {
-          setSelected(e.target.value);
-        }}
-        value={selected}
-      >
-        {pokemon &&
-          pokemon.map((pokemon, idx) => {
-            return (
-              <SelectOption key={idx} value={pokemon.url}>
-                {idx + 1}. {pokemon.name.toUpperCase()}
-              </SelectOption>
-            );
-          })}
-      </SelectPokemon>
-      <SelectPokemon
-        style={{ width: 100 }}
-        onChange={(e) => {
-          setGeneration(e.target.value);
-        }}
-        value={generation}
-      >
-        {generations.map((gen, idx) => {
-          return (
-            <SelectOption key={idx} value={gen}>
-              {gen}
-            </SelectOption>
-          );
-        })}
-      </SelectPokemon>
+    <BigContainer>
+      <Title>Gotta catch em all!</Title>
+      <Container>
+        <SelectWrapper>
+          <LabelWrapper>
+            <Label>
+              Pokemon <MdCatchingPokemon />
+            </Label>
+            <SelectPokemon
+              style={{ width: "auto" }}
+              onChange={(e) => {
+                setSelected(e.target.value);
+              }}
+              value={selected}
+            >
+              {pokemon &&
+                pokemon.map((pokemon, idx) => {
+                  return (
+                    <SelectOption key={idx} value={pokemon.url}>
+                      {idx + 1}. {pokemon.name.toUpperCase()}
+                    </SelectOption>
+                  );
+                })}
+            </SelectPokemon>
+          </LabelWrapper>
 
-      {pokemonObject.isMythical || pokemonObject.isLegendary ? (
-        <PokemonCard
-          ref={cardRef}
-          poketype={pokemonObject.type}
-          colorsmap={colorsMap}
-          x={mouseCardPos.x}
-          y={mouseCardPos.y}
-          rotatex={rotation.rotatex}
-          rotatey={rotation.rotatey}
-          ishovered={isCardHovered}
-          onMouseOver={() => setIsCardHovered(true)}
-          onMouseLeave={() => {
-            setIsCardHovered(false);
-            setMouseCardPos({
-              x: cardRef.current.clientWidth / 2,
-              y: cardRef.current.clientHeight / 2,
-            });
-          }}
-        >
-          <Sparkles>
-            <NameContainer>
-              {pokemonObject.evolvesFrom && (
-                <Evolves>
-                  {" "}
-                  Evolves from{" "}
-                  <p style={{ textTransform: "capitalize" }}>
-                    {pokemonObject.evolvesFrom}
-                  </p>
-                </Evolves>
+          <LabelWrapper>
+            <Label>
+              Generation <MdHourglassTop />
+            </Label>
+            <SelectPokemon
+              style={{ width: "auto" }}
+              onChange={(e) => {
+                setGeneration(e.target.value);
+              }}
+              value={generation}
+            >
+              {generations.map((gen, idx) => {
+                return (
+                  <SelectOption key={idx} value={gen}>
+                    {gen}
+                  </SelectOption>
+                );
+              })}
+            </SelectPokemon>
+          </LabelWrapper>
+        </SelectWrapper>
+
+        {pokemonObject.isMythical || pokemonObject.isLegendary ? (
+          <PokemonCard
+            ref={cardRef}
+            poketype={pokemonObject.type}
+            colorsmap={colorsMap}
+            x={mouseCardPos.x}
+            y={mouseCardPos.y}
+            rotatex={rotation.rotatex}
+            rotatey={rotation.rotatey}
+            ishovered={isCardHovered}
+            onMouseOver={() => setIsCardHovered(true)}
+            onMouseLeave={() => {
+              setIsCardHovered(false);
+              setMouseCardPos({
+                x: cardRef.current.clientWidth / 2,
+                y: cardRef.current.clientHeight / 2,
+              });
+            }}
+          >
+            <Sparkles>
+              <NameContainer>
+                {pokemonObject.evolvesFrom && (
+                  <Evolves>
+                    {" "}
+                    Evolves from{" "}
+                    <p style={{ textTransform: "capitalize" }}>
+                      {pokemonObject.evolvesFrom}
+                    </p>
+                  </Evolves>
+                )}
+                <NameTypeContainer
+                  style={{
+                    color:
+                      pokemonObject.type === "ice" ||
+                      pokemonObject.type === "electric" ||
+                      pokemonObject.type === "fire" ||
+                      pokemonObject.type === "psychic"
+                        ? "black"
+                        : "white",
+                  }}
+                >
+                  <Name>{pokemonObject.name}</Name>
+                  <TypeIconContainer
+                    style={{ backgroundColor: bgMap[pokemonObject.type] }}
+                  >
+                    <Image
+                      alt="type icon"
+                      src={iconsMap[pokemonObject.type]}
+                      width={40}
+                      height={40}
+                    />
+                  </TypeIconContainer>
+                </NameTypeContainer>
+              </NameContainer>
+            </Sparkles>
+
+            <ImagesContainer
+              ref={imageRef}
+              onMouseOver={() => setIsHovered(true)}
+              onMouseOut={() => setIsHovered(false)}
+            >
+              {pokemonObject.previousEvolution && (
+                <InfoCursor
+                  x={mousePos.x}
+                  y={mousePos.y}
+                  ishovered={isHovered}
+                ></InfoCursor>
               )}
-              <NameTypeContainer
+
+              <ImageContainer>
+                <Image
+                  alt="pokemon"
+                  src={pokemonObject.sprite}
+                  width={200}
+                  height={200}
+                />
+              </ImageContainer>
+              {pokemonObject.previousEvolution && (
+                <PreviousEvolutionContainer ishovered={isHovered}>
+                  <Image
+                    alt="pokemon"
+                    src={pokemonObject.previousEvolution}
+                    width={200}
+                    height={200}
+                  />
+                </PreviousEvolutionContainer>
+              )}
+            </ImagesContainer>
+
+            <Sparkles>
+              {pokemonObject.isLegendary && (
+                <p
+                  style={{
+                    color:
+                      pokemonObject.type === "ice" ||
+                      pokemonObject.type === "electric" ||
+                      pokemonObject.type === "fire" ||
+                      pokemonObject.type === "psychic"
+                        ? "black"
+                        : "white",
+                  }}
+                >
+                  Legendary Pokemon
+                </p>
+              )}
+            </Sparkles>
+
+            <Sparkles>
+              {pokemonObject.isMythical && (
+                <p
+                  style={{
+                    color:
+                      pokemonObject.type === "psychic" ? "black" : " white",
+                  }}
+                >
+                  Mythical Pokemon
+                </p>
+              )}
+            </Sparkles>
+
+            <Sparkles>
+              <p style={{ color: "black", fontWeight: 500 }}>
+                {pokemonObject.text}
+              </p>
+            </Sparkles>
+
+            <Sparkles>
+              <TypeContainer
                 style={{
                   color:
                     pokemonObject.type === "ice" ||
@@ -571,7 +720,84 @@ const Pokemon = () => {
                       : "white",
                 }}
               >
-                <Name>{pokemonObject.name}</Name>
+                Type: <TypePill>{pokemonObject.type}</TypePill>
+              </TypeContainer>
+            </Sparkles>
+            <Sparkles>
+              <AbilitiesContainer
+                style={{
+                  color:
+                    pokemonObject.type === "ice" ||
+                    pokemonObject.type === "electric" ||
+                    pokemonObject.type === "fire" ||
+                    pokemonObject.type === "psychic"
+                      ? "black"
+                      : "white",
+                }}
+              >
+                Abilities:
+                {pokemonObject.abilities?.map((ability, idx) => (
+                  <AbilitiesPill key={idx}>{ability}</AbilitiesPill>
+                ))}
+              </AbilitiesContainer>
+            </Sparkles>
+          </PokemonCard>
+        ) : (
+          <PokemonCard
+            ref={cardRef}
+            poketype={pokemonObject.type}
+            colorsmap={colorsMap}
+            x={mouseCardPos.x}
+            y={mouseCardPos.y}
+            rotatex={rotation.rotatex}
+            rotatey={rotation.rotatey}
+            ishovered={isCardHovered}
+            onMouseOver={() => setIsCardHovered(true)}
+            onMouseLeave={() => {
+              setIsCardHovered(false);
+              setMouseCardPos({
+                x: cardRef.current.clientWidth / 2,
+                y: cardRef.current.clientHeight / 2,
+              });
+            }}
+          >
+            <NameContainer>
+              {pokemonObject.evolvesFrom && (
+                <Evolves
+                  style={{
+                    color:
+                      pokemonObject.type === "ghost" ||
+                      pokemonObject.type === "ground" ||
+                      pokemonObject.type === "dragon"
+                        ? "white"
+                        : "black",
+                  }}
+                >
+                  {" "}
+                  Evolves from{" "}
+                  <p style={{ textTransform: "capitalize" }}>
+                    {pokemonObject.evolvesFrom}
+                  </p>
+                </Evolves>
+              )}
+              <NameTypeContainer>
+                <Name
+                  style={{
+                    color:
+                      pokemonObject.type === "ghost" ||
+                      pokemonObject.type === "ground" ||
+                      pokemonObject.type === "dragon"
+                        ? "white"
+                        : "black",
+                  }}
+                >
+                  {pokemonObject.name}{" "}
+                  {pokemonObject.gender === "male" ? (
+                    <BsGenderMale />
+                  ) : pokemonObject.gender === "female" ? (
+                    <BsGenderFemale />
+                  ) : null}
+                </Name>
                 <TypeIconContainer
                   style={{ backgroundColor: bgMap[pokemonObject.type] }}
                 >
@@ -584,102 +810,76 @@ const Pokemon = () => {
                 </TypeIconContainer>
               </NameTypeContainer>
             </NameContainer>
-          </Sparkles>
 
-          <ImagesContainer
-            ref={imageRef}
-            onMouseOver={() => setIsHovered(true)}
-            onMouseOut={() => setIsHovered(false)}
-          >
-            {pokemonObject.previousEvolution && (
-              <InfoCursor
-                x={mousePos.x}
-                y={mousePos.y}
-                ishovered={isHovered}
-              ></InfoCursor>
-            )}
+            <ImagesContainer
+              ref={imageRef}
+              onMouseOver={() => setIsHovered(true)}
+              onMouseOut={() => setIsHovered(false)}
+            >
+              {pokemonObject.previousEvolution && (
+                <InfoCursor
+                  x={mousePos.x}
+                  y={mousePos.y}
+                  ishovered={isHovered}
+                ></InfoCursor>
+              )}
 
-            <ImageContainer>
-              <Image
-                alt="pokemon"
-                src={pokemonObject.sprite}
-                width={200}
-                height={200}
-              />
-            </ImageContainer>
-            {pokemonObject.previousEvolution && (
-              <PreviousEvolutionContainer ishovered={isHovered}>
+              <ImageContainer>
                 <Image
                   alt="pokemon"
-                  src={pokemonObject.previousEvolution}
+                  src={pokemonObject.sprite}
                   width={200}
                   height={200}
                 />
-              </PreviousEvolutionContainer>
-            )}
-          </ImagesContainer>
+              </ImageContainer>
+              {pokemonObject.previousEvolution && (
+                <PreviousEvolutionContainer ishovered={isHovered}>
+                  <Image
+                    alt="pokemon"
+                    src={pokemonObject.previousEvolution}
+                    width={200}
+                    height={200}
+                  />
+                </PreviousEvolutionContainer>
+              )}
+            </ImagesContainer>
 
-          <Sparkles>
-            {pokemonObject.isLegendary && (
-              <p
-                style={{
-                  color:
-                    pokemonObject.type === "ice" ||
-                    pokemonObject.type === "electric" ||
-                    pokemonObject.type === "fire" ||
-                    pokemonObject.type === "psychic"
-                      ? "black"
-                      : "white",
-                }}
-              >
-                Legendary Pokemon
-              </p>
-            )}
-          </Sparkles>
+            {pokemonObject.isLegendary && <p>Legendary Pokemon</p>}
 
-          <Sparkles>
-            {pokemonObject.isMythical && (
-              <p
-                style={{
-                  color: pokemonObject.type === "psychic" ? "black" : " white",
-                }}
-              >
-                Mythical Pokemon
-              </p>
-            )}
-          </Sparkles>
+            {pokemonObject.isMythical && <p>Mythical Pokemon</p>}
 
-          <Sparkles>
-            <p style={{ color: "black", fontWeight: 500 }}>
+            <p
+              style={{
+                color:
+                  pokemonObject.type === "ghost" ||
+                  pokemonObject.type === "ground" ||
+                  pokemonObject.type === "dragon"
+                    ? "white"
+                    : "black",
+              }}
+            >
               {pokemonObject.text}
             </p>
-          </Sparkles>
-
-          <Sparkles>
             <TypeContainer
               style={{
                 color:
-                  pokemonObject.type === "ice" ||
-                  pokemonObject.type === "electric" ||
-                  pokemonObject.type === "fire" ||
-                  pokemonObject.type === "psychic"
-                    ? "black"
-                    : "white",
+                  pokemonObject.type === "ghost" ||
+                  pokemonObject.type === "ground" ||
+                  pokemonObject.type === "dragon"
+                    ? "white"
+                    : "black",
               }}
             >
               Type: <TypePill>{pokemonObject.type}</TypePill>
             </TypeContainer>
-          </Sparkles>
-          <Sparkles>
             <AbilitiesContainer
               style={{
                 color:
-                  pokemonObject.type === "ice" ||
-                  pokemonObject.type === "electric" ||
-                  pokemonObject.type === "fire" ||
-                  pokemonObject.type === "psychic"
-                    ? "black"
-                    : "white",
+                  pokemonObject.type === "ghost" ||
+                  pokemonObject.type === "ground" ||
+                  pokemonObject.type === "dragon"
+                    ? "white"
+                    : "black",
               }}
             >
               Abilities:
@@ -687,156 +887,10 @@ const Pokemon = () => {
                 <AbilitiesPill key={idx}>{ability}</AbilitiesPill>
               ))}
             </AbilitiesContainer>
-          </Sparkles>
-        </PokemonCard>
-      ) : (
-        <PokemonCard
-          ref={cardRef}
-          poketype={pokemonObject.type}
-          colorsmap={colorsMap}
-          x={mouseCardPos.x}
-          y={mouseCardPos.y}
-          rotatex={rotation.rotatex}
-          rotatey={rotation.rotatey}
-          ishovered={isCardHovered}
-          onMouseOver={() => setIsCardHovered(true)}
-          onMouseLeave={() => {
-            setIsCardHovered(false);
-            setMouseCardPos({
-              x: cardRef.current.clientWidth / 2,
-              y: cardRef.current.clientHeight / 2,
-            });
-          }}
-        >
-          <NameContainer>
-            {pokemonObject.evolvesFrom && (
-              <Evolves
-                style={{
-                  color:
-                    pokemonObject.type === "ghost" ||
-                    pokemonObject.type === "ground" ||
-                    pokemonObject.type === "dragon"
-                      ? "white"
-                      : "black",
-                }}
-              >
-                {" "}
-                Evolves from{" "}
-                <p style={{ textTransform: "capitalize" }}>
-                  {pokemonObject.evolvesFrom}
-                </p>
-              </Evolves>
-            )}
-            <NameTypeContainer>
-              <Name
-                style={{
-                  color:
-                    pokemonObject.type === "ghost" ||
-                    pokemonObject.type === "ground" ||
-                    pokemonObject.type === "dragon"
-                      ? "white"
-                      : "black",
-                }}
-              >
-                {pokemonObject.name}{" "}
-                {pokemonObject.gender === "male" ? (
-                  <BsGenderMale />
-                ) : pokemonObject.gender === "female" ? (
-                  <BsGenderFemale />
-                ) : null}
-              </Name>
-              <TypeIconContainer
-                style={{ backgroundColor: bgMap[pokemonObject.type] }}
-              >
-                <Image
-                  alt="type icon"
-                  src={iconsMap[pokemonObject.type]}
-                  width={40}
-                  height={40}
-                />
-              </TypeIconContainer>
-            </NameTypeContainer>
-          </NameContainer>
-
-          <ImagesContainer
-            ref={imageRef}
-            onMouseOver={() => setIsHovered(true)}
-            onMouseOut={() => setIsHovered(false)}
-          >
-            {pokemonObject.previousEvolution && (
-              <InfoCursor
-                x={mousePos.x}
-                y={mousePos.y}
-                ishovered={isHovered}
-              ></InfoCursor>
-            )}
-
-            <ImageContainer>
-              <Image
-                alt="pokemon"
-                src={pokemonObject.sprite}
-                width={200}
-                height={200}
-              />
-            </ImageContainer>
-            {pokemonObject.previousEvolution && (
-              <PreviousEvolutionContainer ishovered={isHovered}>
-                <Image
-                  alt="pokemon"
-                  src={pokemonObject.previousEvolution}
-                  width={200}
-                  height={200}
-                />
-              </PreviousEvolutionContainer>
-            )}
-          </ImagesContainer>
-
-          {pokemonObject.isLegendary && <p>Legendary Pokemon</p>}
-
-          {pokemonObject.isMythical && <p>Mythical Pokemon</p>}
-
-          <p
-            style={{
-              color:
-                pokemonObject.type === "ghost" ||
-                pokemonObject.type === "ground" ||
-                pokemonObject.type === "dragon"
-                  ? "white"
-                  : "black",
-            }}
-          >
-            {pokemonObject.text}
-          </p>
-          <TypeContainer
-            style={{
-              color:
-                pokemonObject.type === "ghost" ||
-                pokemonObject.type === "ground" ||
-                pokemonObject.type === "dragon"
-                  ? "white"
-                  : "black",
-            }}
-          >
-            Type: <TypePill>{pokemonObject.type}</TypePill>
-          </TypeContainer>
-          <AbilitiesContainer
-            style={{
-              color:
-                pokemonObject.type === "ghost" ||
-                pokemonObject.type === "ground" ||
-                pokemonObject.type === "dragon"
-                  ? "white"
-                  : "black",
-            }}
-          >
-            Abilities:
-            {pokemonObject.abilities?.map((ability, idx) => (
-              <AbilitiesPill key={idx}>{ability}</AbilitiesPill>
-            ))}
-          </AbilitiesContainer>
-        </PokemonCard>
-      )}
-    </Container>
+          </PokemonCard>
+        )}
+      </Container>
+    </BigContainer>
   );
 };
 

@@ -8,6 +8,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  padding: 2rem;
 `;
 
 const Box = styled.div`
