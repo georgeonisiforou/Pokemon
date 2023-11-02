@@ -50,6 +50,11 @@ const SelectPokemon = styled.select`
   padding: 1rem;
   cursor: pointer;
   font-size: 1.2rem;
+
+  @media (max-width: 768px) {
+    height: 40px;
+    font-size: 1rem;
+  }
 `;
 
 const SelectOption = styled.option`
@@ -322,6 +327,10 @@ const Label = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
   color: #e3b778;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const SelectWrapper = styled.div`
