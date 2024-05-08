@@ -57,7 +57,6 @@ const SelectPokemon = styled.select`
   font-size: 1.2rem;
 
   @media (max-width: 768px) {
-    height: 40px;
     font-size: 1rem;
   }
 `;
